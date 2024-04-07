@@ -1,0 +1,23 @@
+#include <mega16.h>
+#include <delay.h>
+
+// Declare your global variables here
+
+void main(void)
+{
+PORTC=0xFF;
+DDRC=0x00;
+
+PORTA=0xFF;
+DDRA=0xFF;
+
+while (1)
+      {
+      if(PINA.0==1){
+          PORTC.0=1;
+      }
+      if(PINA.0==0){
+          PORTC.0=0;
+      }
+  }
+}

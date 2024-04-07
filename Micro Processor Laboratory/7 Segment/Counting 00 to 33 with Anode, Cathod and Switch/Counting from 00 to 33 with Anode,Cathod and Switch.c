@@ -1,0 +1,40 @@
+#include <mega16.h>
+#include <delay.h>
+
+int i, j, count = 0;
+char ss[34] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x27, 0x7F, 0x6F,
+    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x27, 0x7F, 0x6F,
+    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x27, 0x7F, 0x6F,
+    0x3F, 0x06, 0x5B, 0x4F};
+
+void main(void)
+{
+    PORTC = 0xFF;
+    DDRC = 0xFF;
+
+    PORTD = 0x00;
+    DDRD = 0xFF;
+
+    PORTA = 0xFF;
+    DDRA &= ~(1 << 0);
+
+    while (1)
+    {
+        if (!(PINA & (1 << 0)))
+        {
+            while (!(PINA & (1 << 0)))
+                ;
+
+            count = 0;
+        }
+        PORTC = ~ss[count % 34];
+        PORTD = ss[(count / 10) % 10];
+
+        delay_ms(500);
+        count++;
+
+        if (count == 34)
+            count = 0;
+    }
+}

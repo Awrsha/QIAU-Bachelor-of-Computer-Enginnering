@@ -1,0 +1,8 @@
+VERSION:3 SOURCE_TIMESTAMP:579E9F65
+NODE:I LEVEL:0 LINE:1 "C:\cvavr\inc\mega16.h"
+NODE:I LEVEL:0 LINE:2 "C:\cvavr\inc\stdio.h"
+NODE:I LEVEL:0 LINE:3 "C:\cvavr\inc\alcd.h"
+NODE:V LEVEL:0 LINE:5 "i -> R4,R5"
+NODE:V LEVEL:0 LINE:5 "j -> R6,R7"
+NODE:V LEVEL:0 LINE:7 "ss -> RAM:????"
+NODE:F LEVEL:0 LINE:9 "main(void)"

@@ -1,0 +1,32 @@
+module Full_Adder (x,y,cin,sum,cout);
+  input x,y,cin;
+  output sum,cout;
+  xor (sum,cin,x,y);
+  or (w1,cin,y);
+  and (w3,w1,x);
+  and (w2,cin,y);
+  or(cout,w2,w3);
+endmodule
+
+  module Test_Full_Adder;
+    reg a,b,c;
+    wire u,v;
+    Full_Adder fa(.x(a),.y(b),.cin(c),.cout(u),.sum(v));
+    initial begin
+      a=1'b0; b=1'b0; c=1'b0;
+      #20
+      c=1'b1;
+      #20
+      b=1'b1; c=1'b0;
+      #20
+      c=1'b1;
+      #20
+      a=1'b1; b=1'b0; c=1'b0;
+      #20
+      c=1'b1;
+      #20
+      b=1'b1; c=1'b0;
+      #20
+      c=1'b1;
+    end
+  endmodule

@@ -1,0 +1,15 @@
+#include <mega16.h>
+#include <delay.h>
+
+void main(void) {
+    unsigned char switchValue; 
+
+    DDRC = 0xFF; 
+    PORTA = 0x00;
+    DDRA = 0x00; 
+
+    while (1) {
+        switchValue = PINA & 0x0F; 
+        PORTC = switchValue;
+    }
+}
