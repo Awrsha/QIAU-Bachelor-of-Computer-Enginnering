@@ -1,13 +1,13 @@
-#include <GL/freeglut.h>  // OpenGL Utility Toolkit for creating OpenGL applications
-#include <GL/glu.h>  // OpenGL Utility Library for OpenGL functionality
-#include <cstdio>  // Standard input/output operations
-#include <cmath>  // Mathematical functions
-#include <cstdlib>  // General utilities library
+#include <GL/freeglut.h>  
+#include <GL/glu.h>  
+#include <cstdio>  
+#include <cmath>  
+#include <cstdlib>  
 
 // Constants
-const int MAX_SHAPES = 100;  // Maximum number of shapes supported
-const float M_PI = 3.14159265358979323846;  // Pi constant
-#define _CRT_SECURE_NO_WARNINGS  // Suppress warnings for certain functions
+const int MAX_SHAPES = 100;  
+const float M_PI = 3.14159265358979323846;  
+#define _CRT_SECURE_NO_WARNINGS  
 
 // Enumeration for different shape types
 enum ShapeType {
@@ -26,15 +26,13 @@ struct Point {
 
 // Structure to represent a shape
 struct Shape {
-    Point start, end;  // Start and end points of the shape
-    float r, g, b;  // Color components (red, green, blue)
-    ShapeType type;  // Type of the shape
-    float thickness;  // Thickness of lines for the shape
-    int isFilled;  // Flag to indicate if the shape is filled
+    Point start, end;  
+    float r, g, b;  
+    ShapeType type;  
+    float thickness;  
+    int isFilled;  
 };
 
-
-// Array of shapes and related variables
 Shape shapes[MAX_SHAPES];
 int shapesCount = 0;
 Shape undoStack[MAX_SHAPES];
@@ -53,9 +51,7 @@ int isDrawingPencil = 0;
 float startX, startY, endX, endY;
 Shape currentShape;
 
-// Function to draw a circle using OpenGL
 void drawCircle(Point center, float radius) {
-    // Drawing a circle using GL_LINE_LOOP
     int segments = 100;
     glBegin(GL_LINE_LOOP);
     for (int i = 0; i < segments; i++) {
@@ -67,9 +63,7 @@ void drawCircle(Point center, float radius) {
     glEnd();
 }
 
-// Function to convert a line shape to a circle shape
 Shape convertLineToCircle(Shape lineShape) {
-    // Logic to convert a line shape to a circle shape
     float lineLength = sqrtf(powf(lineShape.end.x - lineShape.start.x, 2) + powf(lineShape.end.y - lineShape.start.y, 2));
     float circleRadius = lineLength / 2.0f;
 
@@ -91,9 +85,7 @@ Shape convertLineToCircle(Shape lineShape) {
     return circleShape;
 }
 
-// Function to convert a line shape to a rectangle shape
 Shape convertLineToRectangle(Shape drawnShape) {
-    // Logic to convert a line shape to a rectangle shape
     float width = fabsf(drawnShape.start.x - drawnShape.end.x);
     float height = fabsf(drawnShape.start.y - drawnShape.end.y);
 
@@ -114,9 +106,7 @@ Shape convertLineToRectangle(Shape drawnShape) {
     return drawnShape;
 }
 
-// Function to draw a specific shape using OpenGL
 void drawShape(Shape shape) {
-    // Drawing different shapes using OpenGL based on their types
     glColor3f(shape.r, shape.g, shape.b);
     glLineWidth(shape.thickness);
 
@@ -148,7 +138,7 @@ void drawShape(Shape shape) {
     }
     else if (shape.type == CIRCLE) {
         float radius = fminf(fabsf(shape.end.x - shape.start.x), fabsf(shape.end.y - shape.start.y)) / 2.0f;
-        Point center = { (shape.start.x + shape.end.x) / 2.0f, (shape.start.y + shape.end.y) / 2.0f };
+        Point center = { (shape.start.x + shape.end.x) / 2, (shape.start.y + shape.end.y) / 2 };
         drawCircle(center, radius);
     }
     else if (shape.type == TRIANGLE) {
@@ -197,9 +187,7 @@ void drawShape(Shape shape) {
     }
 }
 
-// Function to draw a pencil stroke
 void drawPencilStroke(int x, int y) {
-    // Drawing a pencil stroke at the specified coordinates
     glPointSize(lineThickness);
     glColor3f(red, green, blue);
     glBegin(GL_POINTS);
@@ -208,9 +196,7 @@ void drawPencilStroke(int x, int y) {
     glutPostRedisplay();
 }
 
-// Function to add a shape to the shapes list
 void addShapeToList(Shape shape) {
-    // Adding a shape to the shapes list if space is available
     if (shapesCount < MAX_SHAPES) {
         shapes[shapesCount++] = shape;
     }
@@ -219,9 +205,7 @@ void addShapeToList(Shape shape) {
     }
 }
 
-// Function to remove a shape from the shapes list at a specific index
 void removeShape(int index) {
-    // Removing a shape from the shapes list at the specified index
     if (index >= 0 && index < shapesCount) {
         for (int i = index; i < shapesCount - 1; ++i) {
             shapes[i] = shapes[i + 1];
@@ -230,9 +214,7 @@ void removeShape(int index) {
     }
 }
 
-// Function to detect and classify a drawn shape
 Shape detectShape(Shape drawnShape) {
-    // Detecting and classifying the drawn shape (e.g., rectangle, square)
     float width = fabs(drawnShape.start.x - drawnShape.end.x);
     float height = fabs(drawnShape.start.y - drawnShape.end.y);
 
@@ -254,9 +236,7 @@ Shape detectShape(Shape drawnShape) {
     return drawnShape;
 }
 
-// Callback function for mouse click events
 void mouseClick(int button, int state, int x, int y) {
-    // Handling mouse click events (e.g., drawing shapes, removing shapes)
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         startX = x - 250;
         startY = 250 - y;
@@ -302,9 +282,7 @@ void mouseClick(int button, int state, int x, int y) {
     }
 }
 
-// Callback function for mouse movement events
 void mouseMove(int x, int y) {
-    // Handling mouse movement events (e.g., drawing lines, pencil strokes)
     if (isDrawingLine) {
         endX = x - 250;
         endY = 250 - y;
@@ -319,18 +297,14 @@ void mouseMove(int x, int y) {
     }
 }
 
-// Callback function for window reshaping
 void reshape(int width, int height) {
-    // Reshaping the window and setting up the projection matrix
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(-250, 250, -250, 250);
 }
 
-// Function to pop a shape from the undo stack
 Shape popFromUndoStack() {
-    // Popping a shape from the undo stack if available
     if (undoCount > 0) {
         return undoStack[--undoCount];
     }
@@ -341,9 +315,7 @@ Shape popFromUndoStack() {
     }
 }
 
-// Callback function for keyboard events
 void keyboard(unsigned char key, int x, int y) {
-    // Handling keyboard events (e.g., changing colors, shapes, undoing actions)
     switch (key) {
     case 'u':
     {
@@ -409,10 +381,7 @@ void keyboard(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 
-// Callback function to display content on the window
 void display() {
-    // Clearing the screen and setting background color
-    // Drawing shapes stored in the shapes list and the current shape being drawn
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(bgRed, bgGreen, bgBlue);
     glBegin(GL_QUADS);
@@ -435,11 +404,7 @@ void display() {
     glutSwapBuffers();
 }
 
-// Main function
 int main(int argc, char** argv) {
-    // Initializing GLUT and creating a window
-    // Setting up various callbacks for handling events
-    // Starting the main loop for the application
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
