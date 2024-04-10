@@ -1,6 +1,3 @@
-// C program for implementing
-// Mid-Point Ellipse Drawing Algorithm
-
 #include <stdio.h>
 
 void midptellipse(int rx, int ry, int xc, int yc)
