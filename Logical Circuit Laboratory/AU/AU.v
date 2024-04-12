@@ -9,6 +9,7 @@ module Full_Adder(x,y,cin,cout,sum);
   xor (sum,x,y,cin);
   
 endmodule
+
 module Full_Adder_8bit (x, y, cin, cout, sum);
   
   input cin;
@@ -36,6 +37,7 @@ module mux2x1(i0,i1,s,f);
         and(w2,i1,s);
         or(f,w1,w2);
 endmodule
+
 module mux4x1(i0,i1,i2,i3,s0,s1,f);
         input i0,i1,i2,i3,s0,s1;
         output f;
@@ -44,6 +46,7 @@ module mux4x1(i0,i1,i2,i3,s0,s1,f);
         mux2x1 mux1(.i0(i2),.i1(i3),.s(s0),.f(w1));
         mux2x1 mux3(.i0(w0),.i1(w1),.s(s1),.f(f));
 endmodule
+
 module mux8x1(i0,i1,i2,i3,i4,i5,i6,i7,s0,s1,s2,f);
     input i0,i1,i2,i3,i4,i5,i6,i7,s0,s1,s2;
     output f;
@@ -52,6 +55,7 @@ module mux8x1(i0,i1,i2,i3,i4,i5,i6,i7,s0,s1,s2,f);
     mux4x1 mux1(.i0(i4),.i1(i5),.i2(i6),.i3(i7),.s0(s0),.s1(s1),.f(w1));
     mux2x1 mux2(.i0(w0),.i1(w1),.s(s2),.f(f));
 endmodule
+
 module mux8x1_8bit(i0,i1,i2,i3,i4,i5,i6,i7,s0,s1,s2,f);
     input [7:0]i0,i1,i2,i3,i4,i5,i6,i7;
     input s0,s1,s2;
